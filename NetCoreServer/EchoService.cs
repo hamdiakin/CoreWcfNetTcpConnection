@@ -15,6 +15,7 @@ namespace NetCoreServer
         public string ComplexEcho(EchoMessage text)
         {
             System.Console.WriteLine($"Received {text.Text} from client!");
+            System.Console.WriteLine($"Numero {text.TextId} from client!");
             return text.Text;
         }
 

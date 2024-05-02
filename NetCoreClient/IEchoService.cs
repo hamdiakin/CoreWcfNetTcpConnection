@@ -19,7 +19,7 @@ namespace Contract
         Task<string> Echo(string text);
 
         [OperationContract]
-        Task<string> ComplexEcho(EchoMessage text);
+        Task<string> ComplexEcho(EchoMessage message);
 
         [OperationContract]
         [FaultContract(typeof(EchoFault))]
@@ -30,11 +30,12 @@ namespace Contract
     }
 
 
-
 [DataContract]
     public class EchoMessage
     {
         [DataMember]
         public string Text { get; set; }
+        [DataMember]
+        public int TextId { get; set; }
     }
 }

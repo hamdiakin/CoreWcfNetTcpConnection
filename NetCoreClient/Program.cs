@@ -7,8 +7,6 @@ namespace NetCoreClient
 {
     public class Program
     {
-        public const int HTTP_PORT = 8088;
-        public const int HTTPS_PORT = 8443;
         public const int NETTCP_PORT = 8089;
 
         static async Task Main(string[] args)
@@ -31,7 +29,12 @@ namespace NetCoreClient
                 channel = client as IClientChannel;
                 channel.Open();
                 //var result = await client.Echo("Hello World!");
-                var result = await client.EchoTrial("Hello World!"); // Invoke the asynchronous method
+                var mes = new EchoMessage
+                {
+                    Text = "Hello",
+                    TextId = 1,
+                };
+                var result = await client.ComplexEcho(mes); // Invoke the asynchronous method
                 channel.Close();
                 Console.WriteLine(result);
             }

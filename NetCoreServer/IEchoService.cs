@@ -24,7 +24,7 @@ namespace Contract
         string Echo(string text);
 
         [OperationContract]
-        string ComplexEcho(EchoMessage text);
+        string ComplexEcho(EchoMessage message);
 
         [OperationContract]
         [FaultContract(typeof(EchoFault))]
@@ -42,5 +42,7 @@ namespace Contract
     {
         [DataMember]
         public string Text { get; set; }
+        [DataMember]
+        public int TextId { get; set; }
     }
 }
