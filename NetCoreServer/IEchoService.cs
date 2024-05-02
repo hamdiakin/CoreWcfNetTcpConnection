@@ -1,5 +1,6 @@
 ﻿using CoreWCF;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Contract
 {
@@ -31,6 +32,9 @@ namespace Contract
 
         [OperationContract]
         string EchoForPermission(string text);
+
+        [OperationContract]
+        Task<string> EchoTrial(string text); // New asynchronous method
     }
 
     [DataContract]

@@ -19,15 +19,6 @@ namespace NetCoreServer
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .UseKestrel(options => {
-                //options.ListenAnyIP(Startup.HTTP_PORT);
-                //options.ListenAnyIP(Startup.HTTPS_PORT, listenOptions =>
-                //{
-                //    listenOptions.UseHttps();
-                //    if (Debugger.IsAttached)
-                //    {
-                //        listenOptions.UseConnectionLogging();
-                //    }
-                //});
             })
             .UseNetTcp(Startup.NETTCP_PORT)
             .UseStartup<Startup>();

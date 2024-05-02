@@ -14,58 +14,7 @@ namespace NetCoreClient
         static async Task Main(string[] args)
         {
             Console.Title = "WCF .Net Core Client";
-
-            //await CallBasicHttpBinding($"http://localhost:{HTTP_PORT}");
-            //await CallBasicHttpBinding($"https://localhost:{HTTPS_PORT}");
-            //await CallWsHttpBinding($"http://localhost:{HTTP_PORT}");
-            //await CallWsHttpBinding($"https://localhost:{HTTPS_PORT}");
             await CallNetTcpBinding($"net.tcp://localhost:{NETTCP_PORT}");
-        }
-
-        private static async Task CallBasicHttpBinding(string hostAddr)
-        {
-            IClientChannel channel = null;
-
-            var binding = new BasicHttpBinding(IsHttps(hostAddr) ? BasicHttpSecurityMode.Transport : BasicHttpSecurityMode.None);
-
-            var factory = new ChannelFactory<IEchoService>(binding, new EndpointAddress($"{hostAddr}/EchoService/basicHttp"));
-            factory.Open();
-            try
-            {
-                IEchoService client = factory.CreateChannel();
-                channel = client as IClientChannel;
-                channel.Open();
-                var result = await client.Echo("Hello World!");
-                channel.Close();
-                Console.WriteLine(result);
-            }
-            finally
-            {
-                factory.Close();
-            }
-        }
-
-        private static async Task CallWsHttpBinding(string hostAddr)
-        {
-            IClientChannel channel = null;
-
-            var binding = new WSHttpBinding(IsHttps(hostAddr) ? SecurityMode.Transport : SecurityMode.None);
-
-            var factory = new ChannelFactory<IEchoService>(binding, new EndpointAddress($"{hostAddr}/EchoService/wsHttp"));
-            factory.Open();
-            try
-            {
-                IEchoService client = factory.CreateChannel();
-                channel = client as IClientChannel;
-                channel.Open();
-                var result = await client.Echo("Hello World!");
-                channel.Close();
-                Console.WriteLine(result);
-            }
-            finally
-            {
-                factory.Close();
-            }
         }
 
         private static async Task CallNetTcpBinding(string hostAddr)
@@ -81,19 +30,23 @@ namespace NetCoreClient
                 IEchoService client = factory.CreateChannel();
                 channel = client as IClientChannel;
                 channel.Open();
-                var result = await client.Echo("Hello World!");
+                //var result = await client.Echo("Hello World!");
+                var result = await client.EchoTrial("Hello World!"); // Invoke the asynchronous method
                 channel.Close();
                 Console.WriteLine(result);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                factory.Abort(); // Abort factory
+                if (channel != null && channel.State != CommunicationState.Closed)
+                    channel.Abort(); // Abort channel
+            }
             finally
             {
-                factory.Close();
+                factory.Close(); // Close factory
             }
-        }
 
-        private static bool IsHttps(string url)
-        {
-            return url.ToLower().StartsWith("https://");
         }
     }
 }

@@ -18,6 +18,15 @@ namespace NetCoreServer
             return text.Text;
         }
 
+        public async Task<string> EchoTrial(string text)
+        {
+            // Simulate asynchronous operation (e.g., I/O-bound task)
+            await Task.Delay(1000); // Simulate delay for demonstration
+
+            System.Console.WriteLine($"Received {text} asynchronously from client!");
+            return $"Async: {text}";
+        }
+
         public string FailEcho(string text)
             => throw new FaultException<EchoFault>(new EchoFault() { Text = "WCF Fault OK" }, new FaultReason("FailReason"));
 

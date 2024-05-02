@@ -24,9 +24,14 @@ namespace Contract
         [OperationContract]
         [FaultContract(typeof(EchoFault))]
         Task<string> FailEcho(string text);
+
+        [OperationContract]
+        Task<string> EchoTrial(string text); // Asynchronous method on the client side
     }
 
-    [DataContract]
+
+
+[DataContract]
     public class EchoMessage
     {
         [DataMember]
